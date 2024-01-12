@@ -1,10 +1,15 @@
 pipeline {
-    agent any
+    agent {label 'linux'}
     stages{
+        stage('gitclone'){
+            steps{
+                git 'https://github.com/shazforiot/nodeapp_test.git'
+            }
+        }
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t petrisor/devops-integration .'
+                    sh 'docker build -t slashlinux/nodeapp_test:latest .'
                 }
             }
         }
@@ -15,16 +20,10 @@ pipeline {
                    sh 'docker login -u slashlinux -p ${dockerhubpwd}'
 
 }
-                   sh 'docker push petrisor/devops-integration'
+                   sh 'docker push slashlinux/nodeapp_test:latest'
                 }
             }
         }
-        stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
-                }
-            }
-        }
+
     }
 }
