@@ -16,7 +16,7 @@ pipeline {
         stage('Login to DockerHub'){
             steps{
                 script{
-                   sh 'docker login -u slashlinux -p AMpt157B@'
+                   sh 'docker login -u slashlinux -p AMpt157B'
                 }
             }
         }
